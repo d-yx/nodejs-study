@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>网站正在建设中。。。</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .stage {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #4a96ee;
+        left: 0;
+        top: 0;
+      }
+      .sheep {
+        position: absolute;
+        width: 164px;
+        height: 122px;
+        background: url(./imgs/sheep.png) 0 0 no-repeat;
+        right: 0;
+        bottom: 0;
+        cursor: -webkit-grabbing;
+      }
+      h1 {
+        color: #fff;
+        font-family: "楷体";
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <h1>网站正在建设中。。。</h1>
+    </div>
+    <script>
+      var sheepShaun = {
+        sPars: {
+          speed: 7, 
+          backNum: 0, 
+          frequency: 70, 
+          stage: document.getElementsByClassName("stage")[0], 
+          maxSheep: 8,
+        },
+        init: function () {
+          this.creatSheep(); 
+        },
+        creatSheep: function () {
+          function SheepClass(data) {
+            this.sheep = document.createElement("div");
+            data.stage.appendChild(this.sheep); 
+            this.sheep.className = "sheep";
+            this.frequency = Math.floor(Math.random() * data.frequency) + 30; 
+            this.speed = data.speed;
+            this.backNum = data.backNum;
+            this.stage = data.stage;
+            this.top = 0;
+            this.currSpeed = data.speed;
+          }
+
+          var oneSheep = new SheepClass(this.sPars);
+          this.sheepRunning(oneSheep);
+
+          var _this = this;
+          var timer = setInterval(function () {
+            var sheeps = _this.sPars.stage.children.length;
+            if (sheeps < _this.sPars.maxSheep) {
+              var oneSheep = new SheepClass(_this.sPars); 
+              _this.sheepRunning(oneSheep);
+            }
+          }, 1000);
+        },
+        sheepRunning: function (obj) {
+
+          obj.sheepAnimate = setInterval(function () {
+            obj.backNum = obj.backNum + obj.sheep.offsetWidth;
+            if (obj.backNum >= 1312) {
+              obj.backNum = 0;
+            }
+            var cot = obj.sheep.offsetLeft - obj.speed;
+            if (cot <= -obj.sheep.offsetWidth) {
+              clearInterval(obj.sheepAnimate);
+              console.log("remove");
+              obj.stage.removeChild(obj.sheep);
+            }
+            obj.sheep.style.left = cot + "px";
+            obj.sheep.style.backgroundPosition =
+              -obj.backNum + "px " + obj.top + "px";
+          }, obj.frequency);
+
+          // 小羊拖拽
+          obj.sheep.onmousedown = function (e) {
+            obj.speed = 0;
+            obj.top = -128;
+
+            obj.x = e.pageX;
+            obj.y = e.pageY;
+
+            document.onmousemove = function (e) {
+              var chax = e.pageX - obj.x;
+              var chay = e.pageY - obj.y;
+              obj.sheep.style.left = chax + obj.sheep.offsetLeft + "px";
+              obj.sheep.style.top = chay + obj.sheep.offsetTop + "px";
+
+              obj.x = e.pageX; 
+              obj.y = e.pageY;
+            };
+
+            this.onmouseup = function (e) {
+              document.onmousemove = null;
+              obj.speed = obj.currSpeed;
+              obj.top = 0;
+            };
+          };
+        },
+      };
+      sheepShaun.init();
+    </script>
+  </body>
+</html>
