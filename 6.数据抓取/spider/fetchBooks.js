@@ -1,7 +1,8 @@
 // 抓取豆瓣读书中的数据信息
-const axios = require("axios").default;
-const cheerio = require("cheerio");
-// const Book = require("../models/Book");
+const axios = require("axios");
+const cherrio = require("cheerio");
+const Book = require("../models/Book");
+
 /**
  * 获取豆瓣读书网页的源代码
  */
@@ -15,13 +16,9 @@ async function getBooksHTML() {
  */
 async function getBookLinks() {
   const html = await getBooksHTML();
-  const $ = cheerio.load(html);
-  const achorElements = $("#content .grid-12-12 li a.cover");
-  const links = achorElements
-    .map((i, ele) => {
-      const href = ele.attribs["href"];
-      return href;
-    })
+  const $ = cherrio.load(html);
+  const links = $("#content .grid-12-12 li a.cover")
+    .map((i, ele) => ele.attribs["href"])
     .get();
   return links;
 }
@@ -31,19 +28,17 @@ async function getBookLinks() {
  * @param {*} detailUrl
  */
 async function getBookDetail(detailUrl) {
-  const resp = await axios.get(detailUrl);
-  const $ = cheerio.load(resp.data);
+  const resp = await axios(detailUrl);
+  const $ = await cherrio.load(resp.data);
   const name = $("h1").text().trim();
   const imgurl = $("#mainpic .nbg img").attr("src");
-  const spans = $("#info span.pl");
-  const authorSpan = spans.filter((i, ele) => {
-    return $(ele).text().includes("作者");
-  });
-  const author = authorSpan.next("a").text();
-  const publishSpan = spans.filter((i, ele) => {
-    return $(ele).text().includes("出版年");
-  });
-  const publishDate = publishSpan[0].nextSibling.nodeValue.trim();
+  const publishDate = $("#info span.pl")
+    .filter((i, ele) => $(ele).text().includes("出版年"))[0]
+    .nextSibling.nodeValue.trim();
+  const author = $("#info span.pl")
+    .filter((i, ele) => $(ele).text().includes("作者"))
+    .next("a")
+    .text();
   return {
     name,
     imgurl,
@@ -63,17 +58,13 @@ async function fetchAll() {
   return Promise.all(proms);
 }
 
-fetchAll().then((books) => {
-  console.log(books);
-});
-
 /**
  * 得到书籍信息，然后保存到数据库
  */
-// async function saveToDB() {
-//   const books = await fetchAll();
-//   await Book.bulkCreate(books);
-//   console.log("抓取数据并保存到了数据库");
-// }
+async function saveToDB() {
+  const books = await fetchAll();
+  await Book.bulkCreate(books);
+  console.log("抓取数据并保存到了数据库");
+}
 
-// saveToDB();
+saveToDB();
