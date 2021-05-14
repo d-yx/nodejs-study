@@ -1,16 +1,13 @@
-// require("./models/sync");
-
-// require("./models/relation");
-// require("./Mock/mockClass");
-// require("./Mock/mockStudent");
-
-// require("./spider/fetchBooks");
-
-const adminServe = require("./services/adminService");
-
-// adminServe.login("admin", "123123").then((r) => {
+require("./models/relation");
+// // require("./spider/fetchBooks");
+// const stuServ = require("./services/studentService");
+// stuServ.getStudents(1, 10, false, "秀").then((r) => {
 //   console.log(r);
 // });
-adminServe.getAdminById(1).then((r) => {
+
+
+const studentServe = require("./services/studentService");
+
+studentServe.getStudents().then((r) => {
   console.log(r);
 });

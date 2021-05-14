@@ -1,7 +1,6 @@
 const sequelize = require("./db");
 const { DataTypes } = require("sequelize");
 const Student = require("./Student");
-
 const Class = sequelize.define(
   "Class",
   {
@@ -9,7 +8,7 @@ const Class = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    openData: {
+    openDate: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -20,7 +19,7 @@ const Class = sequelize.define(
     paranoid: true,
   }
 );
-//创建外键
+
 Class.hasMany(Student);
 
 module.exports = Class;

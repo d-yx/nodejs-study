@@ -1,8 +1,2 @@
-// require("./models/sync");
-
-// require("./models/relation");
-// require("./Mock/mockClass");
-// require("./Mock/mockStudent");
-
-
+require("./models/relation");
 require("./spider/fetchBooks");

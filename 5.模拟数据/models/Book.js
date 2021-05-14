@@ -9,16 +9,16 @@ module.exports = sequelize.define(
       allowNull: false,
     },
     imgurl: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING
     },
     publishDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     author: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
+    }
   },
   {
     paranoid: true,

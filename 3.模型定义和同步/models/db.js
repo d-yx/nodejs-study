@@ -1,7 +1,9 @@
-const { Sequelize } = require("Sequelize");
+const { Sequelize } = require("sequelize");
 
-module.exports = new Sequelize("myschooldb", "root", "dboss666", {
+const sequelize = new Sequelize("myschooldb", "root", "ybybdwyJ42.", {
   host: "localhost",
   dialect: "mysql",
-  logging: null,//运行程序时没有废话
+  logging: null
 });
+
+module.exports = sequelize;

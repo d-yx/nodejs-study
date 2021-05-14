@@ -1,22 +1,19 @@
 const Student = require("../models/Student");
-
-//增加学生
-exports.addStudent = async (studentObj) => {
-  Student.create(studentObj);
+exports.addStudent = async function (stuObj) {
+  const ins = await Student.create(stuObj);
+  return ins.toJSON();
 };
 
-//删除学生
-exports.deleteStudent = async (id) => {
-  Student.destroy({
+exports.deleteStudent = async function (id) {
+  return await Student.destroy({
     where: {
       id,
     },
   });
 };
 
-//更新学生
-exports.updateStudent = async (studentObj, id) => {
-  Student.update(studentObj, {
+exports.updateStudent = async function (id, obj) {
+  return await Student.update(obj, {
     where: {
       id,
     },

@@ -8,7 +8,7 @@ module.exports = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    birthday: {
+    birthdady: {
       type: DataTypes.DATE,
       allowNull: false,
     },
@@ -19,7 +19,7 @@ module.exports = sequelize.define(
     mobile: {
       type: DataTypes.STRING(11),
       allowNull: false,
-    },
+    }
   },
   {
     createdAt: false,

@@ -1,24 +1,33 @@
 const Class = require("../models/Class");
-
-//增加班级
-exports.addClass = async (classObj) => {
-  Class.create(classObj);
+exports.addClass = async function (obj) {
+  const ins = await Class.create(obj);
+  return ins.toJSON();
 };
 
-//删除班级
-exports.deleteClass = async (id) => {
-  Class.destroy({
+exports.deleteClass = async function (id) {
+  return await Class.destroy({
     where: {
       id,
     },
   });
 };
 
-//更新班级
-exports.updateClass = async (classObj, id) => {
-  Class.update(classObj, {
+exports.updateClass = async function (id, obj) {
+  return await Class.update(obj, {
     where: {
       id,
     },
   });
+};
+exports.getClassById = async function (id) {
+  const result = await Class.findByPk(id);
+  if (result) {
+    return result.toJSON();
+  }
+  return null;
+};
+
+exports.getClasses = async function () {
+  const result = await Class.findAll();
+  return JSON.parse(JSON.stringify(result));
 };

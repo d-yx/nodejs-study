@@ -1,15 +1,13 @@
 const Mock = require("mockjs");
-
 const result = Mock.mock({
-  "array|16": [
+  "datas|16": [
     {
       "id|+1": 1,
-      name: "物联网应用技术 @id 班",  
+      name: "前端第 @id 期",
       openDate: "@date",
     },
   ],
-}).array;
+}).datas;
 
-//加入到表中
 const Class = require("../models/Class");
 Class.bulkCreate(result);

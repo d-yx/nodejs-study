@@ -1,18 +1,16 @@
 const Mock = require("mockjs");
-
 const result = Mock.mock({
-  "array|500-700": [
+  "datas|500-700": [
     {
-      "id|+1": 1,
       name: "@cname",
-      birthday: "@date",
+      birthdady: "@date",
       "sex|1-2": true,
       mobile: /1\d{10}/,
+      //   location: "@city(true)",
       "ClassId|1-16": 0,
     },
   ],
-}).array;
-
-//加入到表中
+}).datas;
+console.log(result);
 const Student = require("../models/Student");
 Student.bulkCreate(result);

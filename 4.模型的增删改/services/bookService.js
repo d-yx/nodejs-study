@@ -1,22 +1,19 @@
 const Book = require("../models/Book");
-
-//增加书籍
-exports.addBook = async (bookObj) => {
-  Book.create(bookObj);
+exports.addBook = async function (obj) {
+  const ins = await Book.create(obj);
+  return ins.toJSON();
 };
 
-//删除书籍
-exports.deleteBook = async (id) => {
-  Book.destroy({
+exports.deleteBook = async function (id) {
+  return await Book.destroy({
     where: {
       id,
     },
   });
 };
 
-//更新书籍
-exports.updateBook = async (bookObj,id) => {
-  Book.update(bookObj, {
+exports.updateBook = async function (id, obj) {
+  return await Book.update(obj, {
     where: {
       id,
     },
