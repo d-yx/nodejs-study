@@ -1,20 +1,23 @@
 const express = require("express");
-const app = express();
+const path = require("path");
+const app = express(); //创建一个express应用
+const staticRoot = path.resolve(__dirname, "../public");
+app.use(
+  express.static(staticRoot, {
+    index: "index.html",
+  })
+);
 
-app.use(require("./staticMIddleWare"));
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
-app.get("/news", (req, res, next) => {
-  console.log("handler1");
-  // throw new Error("abc");
-  // 相当于
-  next(new Error("abc"));
-  // next();
-});
+app.use(express.json());
 
-app.get("/news", (req, res, next) => {
-  console.log("handler3");
-  // res.send("123");
-  next();
+app.post("/api/student", (req, res) => {
+  console.log(req.body);
 });
 
 app.use(require("./errorMiddleWare"));
