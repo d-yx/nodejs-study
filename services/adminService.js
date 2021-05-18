@@ -16,7 +16,9 @@ exports.deleteAdmin = async function (adminId) {
 };
 
 exports.updateAdmin = async function (id, adminObj) {
-  adminObj.loginPwd = md5(adminObj.loginPwd);
+  if (adminObj.loginPwd) {
+    adminObj.loginPwd = md5(adminObj.loginPwd);
+  }
   const result = await Admin.update(adminObj, {
     where: {
       id,
@@ -26,7 +28,7 @@ exports.updateAdmin = async function (id, adminObj) {
 };
 
 exports.login = async function (loginId, loginPwd) {
-  loginPwd = md5(loginPwd);
+  loginPwd = md5(loginPwd)
   const result = await Admin.findOne({
     where: {
       loginId,

@@ -1,1 +1,1 @@
-console.log("静态资源");
+console.log("abc");

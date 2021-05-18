@@ -1,3 +1,3 @@
 require("./models/init");
 require("./services/init");
-require("./routers/init");
+require("./routes/init");

@@ -1,19 +1,21 @@
 const Student = require("../models/Student");
 const { Op } = require("sequelize");
+const Class = require("../models/Class");
 const validate = require("validate.js");
 const moment = require("moment");
-const Class = require("../models/Class");
+const { pick } = require("../util/propertyHelper");
 exports.addStudent = async function (stuObj) {
-  // 自定义规则
-  validate.validators.classExist = async (value) => {
+  stuObj = pick(stuObj, "name", "birthday", "sex", "mobile", "ClassId");
+  validate.validators.classExits = async function (value) {
     const c = await Class.findByPk(value);
     if (c) {
       return;
     }
     return "is not exist";
   };
+
   const rule = {
-    // 验证规则
+    //验证规则
     name: {
       presence: {
         allowEmpty: false,
@@ -50,12 +52,12 @@ exports.addStudent = async function (stuObj) {
         onlyInteger: true,
         strict: false,
       },
-      classExist: true,
+      classExits: true,
     },
   };
   await validate.async(stuObj, rule);
-  // const ins = await Student.create(stuObj);
-  // return ins.toJSON();
+  const ins = await Student.create(stuObj);
+  return ins.toJSON();
 };
 
 exports.deleteStudent = async function (id) {
