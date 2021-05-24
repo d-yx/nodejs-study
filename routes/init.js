@@ -6,6 +6,15 @@ const path = require("path");
 const staticRoot = path.resolve(__dirname, "../public");
 app.use(express.static(staticRoot));
 
+// 加入cookie-parser 中间件
+// 加入之后，会在req对象中注入cookies属性，用于获取所有请求传递过来的cookie
+// 加入之后，会在res对象中注入cookie方法，用于设置cookie
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+// 应用token中间件
+app.use(require("./tokenMiddleware"));
+
 // 解析 application/x-www-form-urlencoded 格式的请求体
 app.use(express.urlencoded({ extended: true }));
 
@@ -16,12 +25,12 @@ app.use(express.json());
 app.use("/api/student", require("./api/student"));
 // app.use("/api/book", require("./api/book"));
 // app.use("/api/class", require("./api/class"));
-// app.use("/api/admin", require("./api/admin"));
+app.use("/api/admin", require("./api/admin"));
 
 // 处理错误的中间件
 app.use(require("./errorMiddleware"));
 
-const port = 9527;
+const port = 5008;
 app.listen(port, () => {
   console.log(`server listen on ${port}`);
 });
