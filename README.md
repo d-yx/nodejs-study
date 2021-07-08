@@ -5,7 +5,7 @@
 1. 克隆仓库
 
 ```shell
-git clone https://github.com/Dengyuxi6/nodejs-study
+git clone https://github.com/dyx990803/nodejs-study
 cd nodejs-study
 ```
 
